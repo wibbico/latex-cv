@@ -1,0 +1,47 @@
+[project]
+name = "pixcel-cv"
+version = "0.1.0"
+description = "German pixel-perfect CV generator using LaTeX and Python"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0",
+    "jinja2>=3.0",
+    "pyyaml>=6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pixcel_cv"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.3.0",
+    "mypy>=1.0",
+    "pytest>=7.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "RUF"]
+ignore = ["E501"]  # Line too long (handled by formatter)
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_untyped_calls = false
+no_implicit_optional = true
+exclude = [".venv", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

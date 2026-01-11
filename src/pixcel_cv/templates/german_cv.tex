@@ -1,0 +1,93 @@
+\documentclass[11pt,a4paper,german]{article}
+
+\usepackage{fontspec}
+\setmainfont{Helvetica} % Modern sans-serif font
+\setsansfont{Helvetica}
+
+\usepackage[a4paper,margin=1.2cm,top=1.2cm,bottom=1.2cm]{geometry}
+\usepackage[german]{babel}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titlesec}
+
+% Define professional colors
+\definecolor{primary}{HTML}{2E4053}   % Dark Slate Blue
+\definecolor{secondary}{HTML}{5D6D7E} % Muted Blue Grey
+\definecolor{accent}{HTML}{3498DB}    % Bright Blue for links
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    pdftitle={<VAR>cv.contact.name</VAR> - Lebenslauf}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% Modern List Styling
+\setlist[itemize]{leftmargin=*, nosep, topsep=0pt, partopsep=0pt, itemsep=2pt}
+
+% Modern Section Styling
+\titleformat{\section}
+  {\large\bfseries\color{primary}}
+  {}{0pt}
+  {}
+  [\titlerule]
+
+\titlespacing*{\section}{0pt}{1.5ex plus 1ex minus .2ex}{1ex plus .2ex}
+
+\newcommand{\sectiontitle}[1]{\section*{#1}}
+
+\begin{document}
+
+% Modern Header
+\begin{minipage}[t]{0.6\textwidth}
+    {\Huge\bfseries\color{primary} <VAR>cv.contact.name</VAR>} \\
+    {\large\color{secondary} <VAR>cv.contact.title</VAR>}
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+    \raggedleft\small\color{secondary}
+    <VAR>cv.contact.location</VAR> \\
+    <VAR>cv.contact.phone</VAR> \\
+    \href{mailto:<VAR>cv.contact.email</VAR>}{<VAR>cv.contact.email</VAR>} \\
+    \href{https://linkedin.com/in/<VAR>cv.contact.linkedin</VAR>}{linkedin.com/in/<VAR>cv.contact.linkedin</VAR>} \\
+    \href{https://github.com/<VAR>cv.contact.github</VAR>}{github.com/<VAR>cv.contact.github</VAR>}
+\end{minipage}
+
+\vspace{0.4cm}
+
+\sectiontitle{Berufliches Profil}
+<VAR>cv.berufliches_profil</VAR>
+
+\sectiontitle{Beruflicher Werdegang}
+<VAR>cv.custom_sections["Beruflicher Werdegang"]</VAR>
+
+\sectiontitle{Bildungsweg}
+<VAR>cv.education_history</VAR>
+
+\sectiontitle{Technische Fähigkeiten}
+<BLOCK>for skill in cv.skills</BLOCK>
+\textbf{<VAR>skill.category</VAR>:} <VAR>skill.items|join(", ")</VAR> \\
+<BLOCK>endfor</BLOCK>
+
+\sectiontitle{Sprachen}
+<BLOCK>for lang in cv.languages</BLOCK>
+\textbf{<VAR>lang.name</VAR>}: <VAR>lang.level</VAR><BLOCK>if not loop.last</BLOCK> | <BLOCK>endif</BLOCK>
+<BLOCK>endfor</BLOCK>
+
+\sectiontitle{Referenzprojekte}
+<VAR>cv.projects</VAR>
+
+\sectiontitle{Zertifizierungen}
+<BLOCK>for cert in cv.certifications</BLOCK>
+\textbf{<VAR>cert.title</VAR>} -- <VAR>cert.issuer</VAR> (<VAR>cert.date.year</VAR>) \\
+<BLOCK>endfor</BLOCK>
+
+\sectiontitle{Verfügbarkeit}
+<VAR>cv.availability</VAR>
+
+\end{document}
