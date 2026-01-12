@@ -1,0 +1,40 @@
+# Sample Personal Data (Basis Data)
+# This file contains personal information and education
+
+persoenliche_daten:
+  name: "Max Mustermann"
+  titel: "Diplom-Informatiker"
+  adresse: "Beispielstraße 42"
+  plz_ort: "12345 Musterstadt"
+  telefon: "+49 123 456789"
+  email: "max.mustermann@example.de"
+  geboren: "01.01.1990"
+  geburtsort: "Musterstadt"
+  familienstand: "verheiratet"
+  staatsangehoerigkeit: "Deutsch"
+  sprachen: "Deutsch (Muttersprache), Englisch (fließend), Französisch (Grundlagen)"
+  fuehrerschein: "Klasse B"
+  linkedin: "max-mustermann-12345"
+  github: "maxmustermann"
+
+# Education (Bildungsweg)
+bildungsweg:
+  - institution: "Technische Universität München"
+    abschluss: "Diplom-Informatiker"
+    jahr: "2012"
+    schwerpunkte:
+      - "Softwaretechnik"
+      - "Verteilte Systeme"
+      - "Maschinelles Lernen"
+    gesamtnote: "1,8"
+    
+  - institution: "Max-Planck-Gymnasium Musterstadt"
+    abschluss: "Allgemeine Hochschulreife"
+    jahr: "2008"
+    gesamtnote: "2,1"
+
+# Professional profile (optional section)
+sections:
+  berufliches_profil:
+    de: "Erfahrener Softwareentwickler mit Fokus auf Cloud-Technologien, Datenverarbeitung und agile Softwareentwicklung"
+    en: "Experienced software engineer specializing in cloud technologies, data processing, and agile software development"

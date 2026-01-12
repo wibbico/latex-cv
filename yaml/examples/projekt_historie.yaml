@@ -1,0 +1,115 @@
+# Sample Projects (Projekt Historie)
+# This file contains reference projects for the CV
+# Set include_in_cv: true to include projects in the generated CV (default: false)
+
+projects:
+  - id: 1
+    project_de: "Cloud Migration Platform"
+    project_en: "Cloud Migration Platform"
+    client: "Fortune 500 Manufacturing Company"
+    client_anonymous: "Manufacturing Industry"
+    period_from: "2023.06"
+    period_to: "2024.03"
+    include_in_cv: true  # This project will be included in CV
+    tools_libraries:
+      - "Python 3.11"
+      - "AWS (EC2, S3, Lambda, RDS)"
+      - "Terraform"
+      - "Docker"
+      - "Kubernetes"
+      - "PostgreSQL"
+    description_de: |
+      - Design und Implementierung einer Cloud Migration Strategie
+      - Automatisierte Migration von Legacy-Systemen zu AWS
+      - Infrastruktur als Code mit Terraform
+      - Containerisierung mit Docker und Orchestrierung mit Kubernetes
+      - Performance-Optimierung und Cost-Reduction
+    description_en: |
+      Design and implementation of cloud migration strategy
+      - Automated migration of legacy systems to AWS
+      - Infrastructure as Code with Terraform
+      - Containerization with Docker and Kubernetes orchestration
+      - Performance optimization and cost reduction
+
+  - id: 2
+    project_de: "Real-Time Analytics Dashboard"
+    project_en: "Real-Time Analytics Dashboard"
+    client: "E-Commerce Platform"
+    client_anonymous: "E-Commerce Sector"
+    period_from: "2023.01"
+    period_to: "2023.05"
+    include_in_cv: true  # This project will be included in CV
+    tools_libraries:
+      - "React"
+      - "Node.js"
+      - "WebSockets"
+      - "InfluxDB"
+      - "Grafana"
+      - "Apache Kafka"
+    description_de: |
+      - Entwicklung eines Real-Time Dashboards für KPI-Monitoring
+      - WebSocket-basierte Live-Daten-Synchronisation
+      - Datenverarbeitung mit Apache Kafka
+      - Zeitreihendatenbank mit InfluxDB
+      - Frontend mit React und responsivem Design
+    description_en: |
+      Development of real-time dashboard for KPI monitoring
+      - WebSocket-based live data synchronization
+      - Data processing with Apache Kafka
+      - Time-series database with InfluxDB
+      - Frontend with React and responsive design
+
+  - id: 3
+    project_de: "Machine Learning Pipeline für Predictive Analytics"
+    project_en: "Machine Learning Pipeline for Predictive Analytics"
+    client: "Financial Services Company"
+    client_anonymous: "Finance Sector"
+    period_from: "2022.09"
+    period_to: "2023.02"
+    include_in_cv: false  # This project will NOT be included in CV (default)
+    tools_libraries:
+      - "Python"
+      - "scikit-learn"
+      - "TensorFlow"
+      - "Pandas"
+      - "Jupyter"
+      - "MLflow"
+    description_de: |
+      - Entwicklung von ML-Modellen für Kundenabwanderungsprognosen
+      - Feature Engineering und Datenaufbereitung
+      - Model Training, Validation und Hyperparameter Optimization
+      - MLOps Pipeline mit MLflow
+    description_en: |
+      Development of ML models for customer churn prediction
+      - Feature engineering and data preparation
+      - Model training, validation and hyperparameter optimization
+      - MLOps pipeline with MLflow
+
+  - id: 4
+    project_de: "Microservices Transformation"
+    project_en: "Microservices Transformation"
+    client: "Digital Banking Startup"
+    client_anonymous: "FinTech Sector"
+    period_from: "2022.03"
+    period_to: "2022.10"
+    include_in_cv: true  # This project will be included in CV
+    tools_libraries:
+      - "Java 17"
+      - "Spring Boot"
+      - "API Gateway"
+      - "Docker"
+      - "Kubernetes"
+      - "PostgreSQL"
+      - "Redis"
+    description_de: |
+      - Transformation von Monolith zu Microservices Architektur
+      - Service Design mit Domain-Driven Design Principles
+      - API Gateway Implementation
+      - Service-to-Service Communication und Circuit Breaking
+      - Distributed Tracing und Monitoring
+    description_en: |
+      Transformation from monolith to microservices architecture
+      - Service design with Domain-Driven Design principles
+      - API Gateway implementation
+      - Service-to-service communication and circuit breaking
+      - Distributed tracing and monitoring

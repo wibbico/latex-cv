@@ -1,0 +1,69 @@
+# Sample Work Experience (Berufliche Stationen)
+# This file contains all work experience entries
+
+berufliche_stationen:
+  - position: "Senior Software Engineer"
+    unternehmen: "Tech Solutions GmbH"
+    ort: "Berlin"
+    start: "2020.03"
+    bis: "heute"  # Use "heute" for current position
+    schwerpunkte:
+      - "Backend Development mit Python und Java"
+      - "Microservices Architecture"
+      - "Cloud Infrastructure (AWS)"
+      - "Team Leadership (3-5 Personen)"
+    aufgaben:
+      - "Architekturberatung und Design von Microservice-Systemen"
+      - "Entwicklung und Optimierung von Backend-Services"
+      - "Einführung von CI/CD Pipelines"
+      - "Code Reviews und Mentoring von Junior Developers"
+      - "Kundenberatung bei technischen Herausforderungen"
+      - "Performanceoptimierung kritischer Systeme"
+
+  - position: "Software Engineer"
+    unternehmen: "Digital Innovation Labs"
+    ort: "München"
+    start: "2017.06"
+    bis: "2020.02"
+    schwerpunkte:
+      - "Full-Stack Web Development"
+      - "React und Node.js"
+      - "Agile Softwareentwicklung (Scrum)"
+      - "REST API Design"
+    aufgaben:
+      - "Entwicklung von Web-Anwendungen mit React"
+      - "Backend-Entwicklung mit Node.js und Express"
+      - "Datenbank-Design und Optimierung (PostgreSQL, MongoDB)"
+      - "Implementierung von Authentication und Authorization"
+      - "Zusammenarbeit mit UX/UI Team"
+      - "Deployment und Monitoring von Anwendungen"
+
+  - position: "Junior Developer"
+    unternehmen: "Software Consulting AG"
+    ort: "Köln"
+    start: "2015.09"
+    bis: "2017.05"
+    schwerpunkte:
+      - "Java Enterprise Development"
+      - "SQL und Datenbanken"
+      - "Team Collaboration"
+    aufgaben:
+      - "Entwicklung von Enterprise-Anwendungen in Java"
+      - "Datenbankentwicklung mit Oracle und MySQL"
+      - "Bug Fixing und Maintenance"
+      - "Teilnahme an Code Reviews"
+      - "Dokumentation von Anforderungen"
+
+  - position: "Praktikant / Working Student"
+    unternehmen: "StartUp XYZ"
+    ort: "Hamburg"
+    start: "2014.03"
+    bis: "2015.08"
+    schwerpunkte:
+      - "Web Development (PHP, JavaScript)"
+      - "Linux Administration"
+    aufgaben:
+      - "Entwicklung von PHP-basierten Web-Anwendungen"
+      - "Frontend-Entwicklung mit JavaScript/jQuery"
+      - "Server-Administration und Deployment"
+      - "Fehleranalyse und Debugging"

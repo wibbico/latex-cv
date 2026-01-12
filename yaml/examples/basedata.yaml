@@ -1,0 +1,43 @@
+# Sample Base Data
+# This file contains additional base configuration and metadata
+
+basedata:
+  # Document settings
+  document_language: "de"  # de | en
+  
+  # Layout settings
+  font_size: 11
+  paper_size: "A4"
+  
+  # Color scheme (for modern templates)
+  primary_color: "blue"
+  accent_color: "darkgray"
+  
+  # Section ordering (optional)
+  section_order:
+    - "Persönliche Daten"
+    - "Berufliches Profil"
+    - "Beruflicher Werdegang"
+    - "Bildungsweg"
+    - "Fachliche Kompetenzen"
+    - "Referenzprojekte"
+    - "Zertifizierungen"
+    - "Sprachen"
+
+# Optional: Global replacements or placeholders
+replacements:
+  company_confidential_1: "Energy Company A"
+  company_confidential_2: "Manufacturing Group B"
+  
+# Optional: Document class and package settings
+latex_settings:
+  document_class: "moderncv"
+  document_options: "11pt,a4paper,sans"
+  moderncv_style: "classic"  # classic | casual | banking | oldstyle | fancy
+  moderncv_color: "blue"     # blue | orange | green | red | purple | grey | black
+  
+# Optional: Custom headers/footers
+headers_footers:
+  include_page_numbers: true
+  include_date: true
+  footer_text: "Referenzen auf Anfrage verfügbar"
