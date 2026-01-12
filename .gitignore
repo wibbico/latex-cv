@@ -12,3 +12,4 @@ tests/.___pycache__
 ._*
 output/
 .DS_Store
+.env
