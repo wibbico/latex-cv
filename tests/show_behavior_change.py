@@ -4,7 +4,7 @@
 import yaml
 from pathlib import Path
 
-ONEDRIVE_YAML_PATH = Path("/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml")
+ONEDRIVE_YAML_PATH = Path("/Users/maxmustermann/yaml")
 
 # Load raw projects
 with open(ONEDRIVE_YAML_PATH / "projekt_historie.yaml", "r") as f:

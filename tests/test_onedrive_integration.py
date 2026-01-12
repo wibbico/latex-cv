@@ -5,7 +5,7 @@ from pathlib import Path
 from pixcel_cv.loaders import load_cv_from_yaml_folder
 
 # Path to OneDrive YAML files
-ONEDRIVE_YAML_PATH = Path("/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml")
+ONEDRIVE_YAML_PATH = Path("/Users/maxmustermann/yaml")
 LOCAL_CONFIG_PATH = Path("yaml")
 
 print("=" * 80)

@@ -5,7 +5,7 @@ import yaml
 from pathlib import Path
 from pixcel_cv.loaders import load_cv_from_yaml_folder
 
-ONEDRIVE_YAML_PATH = Path("/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml")
+ONEDRIVE_YAML_PATH = Path("/Users/maxmustermann/yaml")
 LOCAL_CONFIG_PATH = Path("yaml")
 
 def test_project_filtering():

@@ -86,13 +86,13 @@ The system loads data from one folder and config from another (recommended for k
 ```bash
 # Load data from OneDrive, config from local ./yaml
 uv run python -m pixcel_cv.cli \
-  --yaml-folder "/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml" \
+  --yaml-folder "/Users/maxmustermann/yaml" \
   --config-folder yaml \
   --pdf output/lebenslauf.pdf --engine xelatex
 
 # Export LaTeX for inspection
 uv run python -m pixcel_cv.cli \
-  --yaml-folder "/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml" \
+  --yaml-folder "/Users/maxmustermann/yaml" \
   --config-folder yaml \
   --latex output/lebenslauf.tex --pdf output/lebenslauf.pdf --engine xelatex
 ```
@@ -228,7 +228,7 @@ from pathlib import Path
 
 # Load CV from separate folders (data + config)
 cv = load_cv_from_yaml_folder(
-    data_folder=Path("/Users/thomas/Library/CloudStorage/OneDrive-WIBBICOGmbH/#PROFIL/yaml"),
+    data_folder=Path("/Users/maxmustermann/yaml"),
     config_folder=Path("yaml")
 )
 
