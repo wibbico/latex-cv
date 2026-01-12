@@ -5,7 +5,7 @@ from typing import Any
 
 import yaml
 
-from .models import Certification, ContactInfo, CurriculumVitae, Language, Skill
+from .models import Certification, ContactInfo, CurriculumVitae, Language, Skill, Anschreiben, PostalAddress
 
 
 def load_cv_from_yaml(file_path: Path | str) -> CurriculumVitae:
@@ -54,6 +54,9 @@ def load_cv_from_yaml_folder(
     skills_data = _load_yaml_file(folder_path / "skills.yaml") or {"skills": []}
     projects = _load_yaml_file(folder_path / "projekt_historie.yaml") or {"projects": []}
     certifications_data = _load_yaml_file(folder_path / "certifications.yaml") or {"certifications": []}
+    
+    # Config file from config folder (typically local ./yaml)
+    cv_config = _load_yaml_file(config_folder / "cv_config.yaml") or {}
 
     # Build contact info from cv_basis.yaml (NEW STRUCTURE)
     persoenliche_daten = cv_basis.get("persoenliche_daten", {})
@@ -485,3 +488,245 @@ def save_cv_to_yaml(cv: CurriculumVitae, file_path: Path | str) -> None:
 
     with open(file_path, "w", encoding="utf-8") as f:
         yaml.dump(cv.model_dump(), f, allow_unicode=True, default_flow_style=False)
+
+def load_anschreiben_from_yaml(file_path: Path | str) -> Anschreiben:
+    """Load Anschreiben (cover letter) from YAML file.
+
+    Args:
+        file_path: Path to YAML file containing cover letter data.
+
+    Returns:
+        Anschreiben model instance.
+    """
+    file_path = Path(file_path)
+    with open(file_path, encoding="utf-8") as f:
+        data: dict[str, Any] = yaml.safe_load(f)
+
+    # Parse contact info - try from anschreiben.yaml first, then cv_basis.yaml
+    contact_data = data.get("contact", {})
+    
+    # If contact info is missing, try to load from cv_basis.yaml in the same directory
+    if not contact_data and "name" not in contact_data and "email" not in contact_data:
+        cv_basis_path = file_path.parent / "cv_basis.yaml"
+        if cv_basis_path.exists():
+            cv_basis = _load_yaml_file(cv_basis_path) or {}
+            persoenliche_daten = cv_basis.get("persoenliche_daten", {})
+            
+            # Map German field names to contact info fields
+            if "name" in persoenliche_daten:
+                contact_data["name"] = persoenliche_daten["name"]
+            if "email" in persoenliche_daten:
+                contact_data["email"] = persoenliche_daten["email"]
+            if "telefon" in persoenliche_daten:
+                contact_data["phone"] = persoenliche_daten["telefon"]
+    
+    contact = ContactInfo(**contact_data)
+
+    # Parse sender address - try from anschreiben.yaml first, then cv_basis.yaml
+    sender_address_data = data.get("sender_address", {})
+    
+    if not sender_address_data:
+        cv_basis_path = file_path.parent / "cv_basis.yaml"
+        if cv_basis_path.exists():
+            cv_basis = _load_yaml_file(cv_basis_path) or {}
+            persoenliche_daten = cv_basis.get("persoenliche_daten", {})
+            
+            # Map German field names
+            if "adresse" in persoenliche_daten:
+                sender_address_data["street"] = persoenliche_daten["adresse"]
+            if "plz_ort" in persoenliche_daten:
+                sender_address_data["postal_city"] = persoenliche_daten["plz_ort"]
+    
+    sender_address = None
+    if sender_address_data:
+        sender_address = PostalAddress(**sender_address_data)
+
+    # Extract all fields
+    anschreiben_data = {
+        "contact": contact,
+        "sender_address": sender_address,
+        "company_name": data.get("company_name", ""),
+        "company_department": data.get("company_department"),
+        "contact_person": data.get("contact_person"),
+        "company_street": data.get("company_street"),
+        "company_postal_code": data.get("company_postal_code"),
+        "company_city": data.get("company_city"),
+        "position": data.get("position", ""),
+        "job_reference": data.get("job_reference"),
+        "date": data.get("date", ""),
+        "subject": data.get("subject", ""),
+        "opening": data.get("opening", ""),
+        "body_paragraphs": data.get("body_paragraphs", []),
+        "closing": data.get("closing", ""),
+        "signature": data.get("signature", "Mit freundlichen Grüßen"),
+        "attachments": data.get("attachments", []),
+        "pdf_title": data.get("pdf_title"),
+        "pdf_author": data.get("pdf_author"),
+        "pdf_subject": data.get("pdf_subject"),
+        "pdf_keywords": data.get("pdf_keywords"),
+    }
+
+    return Anschreiben(**anschreiben_data)
+
+
+def load_anschreiben_from_yaml_folder(
+    folder_path: Path | str,
+    anschreiben_file: str = "anschreiben.yaml",
+) -> Anschreiben:
+    """Load Anschreiben from YAML file with contact info merged from cv_basis.yaml and basedata.yaml.
+
+    Args:
+        folder_path: Path to folder containing YAML files.
+        anschreiben_file: Name of the anschreiben file (default: anschreiben.yaml).
+
+    Returns:
+        Anschreiben model instance.
+    """
+    folder_path = Path(folder_path)
+
+    # Load cv_basis for contact information (primary source for anschreiben)
+    cv_basis = _load_yaml_file(folder_path / "cv_basis.yaml") or {}
+    persoenliche_daten = cv_basis.get("persoenliche_daten", {})
+
+    # Load basedata for fallback data
+    basedata = _load_yaml_file(folder_path / "basedata.yaml") or {}
+    profile_data = basedata.get("profile_data", {})
+
+    # Load anschreiben-specific data
+    anschreiben_file_path = folder_path / anschreiben_file
+    with open(anschreiben_file_path, encoding="utf-8") as f:
+        anschreiben_data: dict[str, Any] = yaml.safe_load(f) or {}
+
+    # Merge contact info from cv_basis (persoenliche_daten) first, then basedata
+    contact_data = anschreiben_data.get("contact", {})
+
+    if "name" not in contact_data and "name" in persoenliche_daten:
+        contact_data["name"] = persoenliche_daten["name"]
+    elif "name" not in contact_data and "name" in profile_data:
+        name_data = profile_data["name"]
+        contact_data["name"] = name_data.get("de") or name_data.get("en") or ""
+
+    if "email" not in contact_data and "email" in persoenliche_daten:
+        contact_data["email"] = persoenliche_daten["email"]
+    elif "email" not in contact_data:
+        metadata = basedata.get("metadata", {})
+        pdf_author = metadata.get("pdf_author", {})
+        if isinstance(pdf_author, dict):
+            pdf_author = pdf_author.get("de", "")
+        # Extract email from "Name (email@example.com)" format
+        if "(" in pdf_author and ")" in pdf_author:
+            email = pdf_author.split("(")[1].split(")")[0]
+            contact_data["email"] = email
+
+    if "phone" not in contact_data and "telefon" in persoenliche_daten:
+        contact_data["phone"] = persoenliche_daten["telefon"]
+
+    contact = ContactInfo(**contact_data)
+
+    # Extract sender address from cv_basis or anschreiben data
+    sender_address = anschreiben_data.get("sender_address")
+    if not sender_address:
+        sender_address = {}
+        if "adresse" in persoenliche_daten:
+            sender_address["street"] = persoenliche_daten["adresse"]
+        if "plz_ort" in persoenliche_daten:
+            sender_address["postal_city"] = persoenliche_daten["plz_ort"]
+
+    sender_postal_address = PostalAddress(
+        street=sender_address.get("street"),
+        postal_city=sender_address.get("postal_city"),
+    )
+
+    # Build complete anschreiben data
+    pdf_generator = anschreiben_data.get("pdf_generator")
+    if not pdf_generator:
+        # Try cv_basis first
+        cv_config = cv_basis.get("cv_config", {})
+        pdf_gen_data = cv_config.get("pdf_generator", {})
+        if isinstance(pdf_gen_data, dict):
+            pdf_generator = pdf_gen_data.get("de") or pdf_gen_data.get("en")
+        else:
+            pdf_generator = pdf_gen_data or ""
+        # Fall back to basedata if not in cv_basis
+        if not pdf_generator:
+            metadata = basedata.get("metadata", {})
+            pdf_gen_data = metadata.get("pdf_generator", {})
+            if isinstance(pdf_gen_data, dict):
+                pdf_generator = pdf_gen_data.get("de") or pdf_gen_data.get("en")
+            else:
+                pdf_generator = pdf_gen_data
+
+    # Auto-generate PDF metadata if not provided
+    pdf_title = anschreiben_data.get("pdf_title")
+    if not pdf_title:
+        position = anschreiben_data.get("position", "")
+        pdf_title = f"Bewerbung {contact.name} - {position}" if position else f"Bewerbung {contact.name}"
+
+    pdf_author = anschreiben_data.get("pdf_author") or contact.name
+
+    pdf_subject = anschreiben_data.get("pdf_subject")
+    if not pdf_subject:
+        position = anschreiben_data.get("position", "")
+        company = anschreiben_data.get("company_name", "")
+        if position and company:
+            pdf_subject = f"Bewerbung als {position} bei {company}"
+        elif position:
+            pdf_subject = f"Bewerbung als {position}"
+        else:
+            pdf_subject = f"Bewerbung {contact.name}"
+
+    pdf_keywords = anschreiben_data.get("pdf_keywords")
+    if not pdf_keywords:
+        position = anschreiben_data.get("position", "")
+        company = anschreiben_data.get("company_name", "")
+        keywords = ["Bewerbung"]
+        if position:
+            keywords.append(position)
+        if company:
+            keywords.append(company)
+        pdf_keywords = ", ".join(keywords)
+
+    final_data = {
+        "contact": contact,
+        "sender_address": sender_postal_address,
+        "company_name": anschreiben_data.get("company_name", ""),
+        "contact_person": anschreiben_data.get("contact_person"),
+        "anrede": anschreiben_data.get("anrede"),
+        "company_street": anschreiben_data.get("company_street"),
+        "company_postal_code": anschreiben_data.get("company_postal_code"),
+        "company_city": anschreiben_data.get("company_city"),
+        "kennziffer": anschreiben_data.get("kennziffer"),
+        "via": anschreiben_data.get("via"),
+        "position": anschreiben_data.get("position", ""),
+        "date": anschreiben_data.get("date", ""),
+        "subject": anschreiben_data.get("subject", ""),
+        "opening": anschreiben_data.get("opening", ""),
+        "body_paragraphs": anschreiben_data.get("body_paragraphs", []),
+        "closing": anschreiben_data.get("closing", ""),
+        "signature": anschreiben_data.get("signature", ""),
+        "attachments": anschreiben_data.get("attachments", []),
+        "pdf_title": pdf_title,
+        "pdf_author": pdf_author,
+        "pdf_subject": pdf_subject,
+        "pdf_keywords": pdf_keywords,
+        "pdf_generator": pdf_generator,
+    }
+
+    # Strict DIN letter needs sender + recipient postal address for window field.
+    if not sender_postal_address.street or not sender_postal_address.postal_city:
+        raise ValueError(
+            "DIN 5008 Anschreiben requires sender postal address (sender_address.street and sender_address.postal_city). "
+            "Provide these in anschreiben YAML or in cv_basis.yaml under persoenliche_daten (adresse, plz_ort)."
+        )
+
+    if (
+        not final_data.get("company_street")
+        or not final_data.get("company_postal_code")
+        or not final_data.get("company_city")
+    ):
+        raise ValueError(
+            "DIN 5008 Anschreiben requires recipient postal address for the address window: "
+            "company_street, company_postal_code, company_city."
+        )
+
+    return Anschreiben(**final_data)

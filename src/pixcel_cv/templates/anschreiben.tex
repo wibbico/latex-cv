@@ -1,0 +1,103 @@
+\documentclass[
+    fontsize=11pt,
+    paper=a4,
+    parskip=half,
+    fromlocation=false,
+    foldmarks=false,
+    numericaldate=false,
+    firstfoot=false,
+    backaddress=false,
+    fromalign=right,
+]{scrlttr2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Geometry adjustments for DIN 5008 letter
+\usepackage[margin=20mm,marginparwidth=0pt]{geometry}
+
+% Colors
+\definecolor{primary}{RGB}{0, 102, 204}
+
+% Sender information
+\setkomavar{fromname}{<VAR>anschreiben.contact.name</VAR>}
+\setkomavar{fromemail}{<VAR>anschreiben.contact.email</VAR>}
+\setkomavar{fromphone}{<VAR>anschreiben.contact.phone</VAR>}
+
+% Sender address (displayed in sender block, hidden from window via backaddress=false)
+\setkomavar{fromaddress}{%
+<BLOCK>if anschreiben.sender_address and anschreiben.sender_address.street</BLOCK>
+  <VAR>anschreiben.sender_address.street</VAR> \\
+<BLOCK>endif</BLOCK>
+<BLOCK>if anschreiben.sender_address and anschreiben.sender_address.postal_city</BLOCK>
+  <VAR>anschreiben.sender_address.postal_city</VAR>
+<BLOCK>endif</BLOCK>
+}
+
+% Recipient address (company address for letter window)
+\setkomavar{toname}{<VAR>anschreiben.company_name</VAR><BLOCK>if anschreiben.contact_person</BLOCK>\\ <VAR>anschreiben.contact_person</VAR><BLOCK>endif</BLOCK>}
+
+\setkomavar{toaddress}{%
+  <VAR>anschreiben.company_street</VAR> \\
+  <VAR>anschreiben.company_postal_code</VAR> <VAR>anschreiben.company_city</VAR>
+}
+
+% Letter opening date and subject
+\setkomavar{date}{<VAR>anschreiben.date</VAR>}
+\setkomavar{subject}{<VAR>anschreiben.subject</VAR>}
+
+% Reference information (job reference, etc.)
+\setkomavar{customer}{<BLOCK>if anschreiben.kennziffer</BLOCK>Kennziffer: <VAR>anschreiben.kennziffer</VAR><BLOCK>endif</BLOCK>}
+
+\begin{document}
+
+\begin{letter}{<BLOCK>if anschreiben.contact_person</BLOCK><VAR>anschreiben.contact_person</VAR> \\ <BLOCK>endif</BLOCK><VAR>anschreiben.company_name</VAR> \\ <VAR>anschreiben.company_street</VAR> \\ <VAR>anschreiben.company_postal_code</VAR> <VAR>anschreiben.company_city</VAR>}
+
+\medskip
+
+% Opening
+\opening{<VAR>anschreiben.opening</VAR>}
+
+% Body paragraphs
+<BLOCK>for paragraph in anschreiben.body_paragraphs</BLOCK>
+<VAR>paragraph</VAR>
+
+<BLOCK>endfor</BLOCK>
+
+% Closing (non-centered)
+\raggedright
+<VAR>anschreiben.closing</VAR>
+
+\vspace{0.5cm}
+<VAR>anschreiben.signature</VAR>
+
+\vfill
+
+% Attachments
+<BLOCK>if anschreiben.attachments</BLOCK>
+\ps{Anlage<BLOCK>if anschreiben.attachments|length > 1</BLOCK>n<BLOCK>endif</BLOCK>:
+\begin{itemize}
+<BLOCK>for attachment in anschreiben.attachments</BLOCK>
+  \item <VAR>attachment</VAR>
+<BLOCK>endfor</BLOCK>
+\end{itemize}}
+<BLOCK>endif</BLOCK>
+
+\end{letter}
+
+% PDF Metadata
+\hypersetup{
+  pdftitle={<VAR>anschreiben.pdf_title</VAR>},
+  pdfauthor={<VAR>anschreiben.pdf_author</VAR>},
+  pdfsubject={<VAR>anschreiben.pdf_subject</VAR>},
+  pdfkeywords={<VAR>anschreiben.pdf_keywords</VAR>},
+  pdfproducer={<VAR>anschreiben.pdf_generator or 'Pixcel CV'</VAR>}
+}
+
+\end{document}

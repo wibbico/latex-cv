@@ -19,6 +19,13 @@ class ContactInfo(BaseModel):
     portrait_path: str | None = None
 
 
+class PostalAddress(BaseModel):
+    """Postal address with street and postal code/city."""
+
+    street: str | None = None
+    postal_city: str | None = None
+
+
 class DateRange(BaseModel):
     """Date range for work/education periods."""
 
@@ -118,3 +125,41 @@ class CurriculumVitae(BaseModel):
     projects: str = ""  # Formatted projects/Referenzprojekte from YAML
     availability: str = ""  # Availability/Verfügbarkeit from YAML
     custom_sections: dict[str, str] = Field(default_factory=dict)
+
+class Anschreiben(BaseModel):
+    """German cover letter (Anschreiben) for job applications."""
+
+    # Sender information
+    contact: ContactInfo
+    sender_address: PostalAddress | None = None
+
+    # Recipient information
+    company_name: str
+    contact_person: str | None = None
+    anrede: str | None = None  # e.g., "Frau", "Herr"
+    company_street: str | None = None
+    company_postal_code: str | None = None
+    company_city: str | None = None
+    kennziffer: str | None = None  # Application reference/job ID
+    via: str | None = None  # e.g., "via Onlineformular" for online applications
+
+    # Job details
+    position: str
+
+    # Letter content
+    date: str  # German format: "10.01.2026"
+    subject: str  # e.g., "Bewerbung als Senior Data Engineer"
+    opening: str  # e.g., "Sehr geehrte Frau Dr. Schmidt,"
+    body_paragraphs: list[str]
+    closing: str  # e.g., "Ich freue mich auf ein persönliches Gespräch."
+    signature: str = "Mit freundlichen Grüßen"
+
+    # Optional attachments list
+    attachments: list[str] = Field(default_factory=list)
+
+    # PDF metadata (optional)
+    pdf_title: str | None = None
+    pdf_author: str | None = None
+    pdf_subject: str | None = None
+    pdf_keywords: str | None = None
+    pdf_generator: str | None = None

@@ -41,7 +41,7 @@ cv-portrait:
   --latex output/cv_with_portrait.tex
 
 anschreiben:
-	uv run python -m pixcel_cv.cli yaml/anschreiben.yaml \
+	uv run python -m pixcel_cv.cli $(EXTERNAL_YAML_FOLDER)/anschreiben.yaml \
   --pdf output/anschreiben.pdf \
   --latex output/anschreiben.tex \
   --engine pdflatex

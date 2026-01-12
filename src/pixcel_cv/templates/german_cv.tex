@@ -88,9 +88,6 @@
 \textbf{<VAR>lang.name</VAR>}: <VAR>lang.level</VAR><BLOCK>if not loop.last</BLOCK> | <BLOCK>endif</BLOCK>
 <BLOCK>endfor</BLOCK>
 
-\sectiontitle{Referenzprojekte}
-<VAR>cv.projects</VAR>
-
 \sectiontitle{Zertifizierungen}
 <BLOCK>for cert in cv.certifications</BLOCK>
 \textbf{<VAR>cert.title</VAR>} -- <VAR>cert.issuer</VAR> (<VAR>cert.date.year</VAR>) \\
@@ -98,5 +95,8 @@
 
 \sectiontitle{Verfügbarkeit}
 <VAR>cv.availability</VAR>
+
+\sectiontitle{Referenzprojekte}
+<VAR>cv.projects</VAR>
 
 \end{document}

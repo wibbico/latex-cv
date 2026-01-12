@@ -1,0 +1,47 @@
+contact:
+  name: "John Doe"
+  email: "john.doe@example.com"
+  phone: "+49 123 456789"
+
+sender_address:
+  street: "Musterstraße 123"
+  postal_city: "10115 Berlin"
+
+company_name: "Example Company GmbH"
+company_street: "Beispielweg 456"
+company_postal_code: "20095"
+company_city: "Hamburg"
+
+contact_person: "Frau Müller"
+position: "Senior Software Engineer"
+date: "12. Januar 2026"
+
+subject: "Bewerbung als Senior Software Engineer"
+
+opening: |
+  Sehr geehrte Frau Müller,
+
+body_paragraphs:
+  - |
+    hiermit bewerbe ich mich für die Stelle als Senior Software Engineer in Ihrem Unternehmen.
+    Mit meiner langjährigen Erfahrung in der Softwareentwicklung freue ich mich auf die
+    Möglichkeit, mein Wissen und meine Fähigkeiten in Ihrem Team einzubringen.
+  - |
+    In meiner bisherigen Karriere habe ich erfolgreich mehrere Projekte geleitet und dabei
+    ein hohes Maß an Qualität und Kundenzufriedenheit erreicht. Ich bin überzeugt, dass
+    ich eine wertvolle Bereicherung für Ihr Unternehmen darstelle.
+
+closing: |
+  Gerne stelle ich Ihnen in einem persönlichen Gespräch weitere Details zu meinen Qualifikationen zur Verfügung.
+
+signature: "Mit freundlichen Grüßen"
+
+attachments:
+  - "Lebenslauf"
+  - "Zeugnisse"
+  - "Portfolio"
+
+pdf_title: "Bewerbung John Doe"
+pdf_author: "John Doe"
+pdf_subject: "Bewerbung als Senior Software Engineer"
+pdf_keywords: "Bewerbung, Senior Software Engineer, Example Company"

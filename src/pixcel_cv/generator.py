@@ -5,8 +5,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from .models import CurriculumVitae
-from .templates import load_german_cv_template
+from .models import CurriculumVitae, Anschreiben
+from .templates import load_german_cv_template, load_anschreiben_template
 
 
 def render_cv(cv: CurriculumVitae) -> str:
@@ -113,3 +113,74 @@ class CVGenerator:
             engine: LaTeX engine to use.
         """
         compile_to_pdf(self.cv, output_path, engine)
+
+class AnschreibenGenerator:
+    """Generate LaTeX Anschreiben (cover letter) from Anschreiben model."""
+
+    def __init__(self, anschreiben: Anschreiben) -> None:
+        """Initialize Anschreiben generator.
+
+        Args:
+            anschreiben: The Anschreiben model to render.
+        """
+        self.anschreiben = anschreiben
+
+    def to_latex(self) -> str:
+        """Generate LaTeX source from Anschreiben model.
+
+        Returns:
+            LaTeX document string.
+        """
+        template = load_anschreiben_template()
+        return template.render(anschreiben=self.anschreiben)
+
+    def to_pdf(self, output_path: Path, engine: str = "pdflatex") -> None:
+        """Generate PDF from Anschreiben model.
+
+        Args:
+            output_path: Path where the PDF should be saved.
+            engine: LaTeX engine to use.
+
+        Raises:
+            RuntimeError: If LaTeX compilation fails.
+        """
+        latex_content = self.to_latex()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            tex_file = tmp_path / "anschreiben.tex"
+            tex_file.write_text(latex_content, encoding="utf-8")
+
+            try:
+                # First compilation
+                subprocess.run(
+                    [
+                        engine,
+                        "-interaction=nonstopmode",
+                        "-output-directory",
+                        str(tmp_path),
+                        str(tex_file),
+                    ],
+                    check=True,
+                    capture_output=True,
+                )
+
+                # Second compilation (for LaTeX references)
+                subprocess.run(
+                    [
+                        engine,
+                        "-interaction=nonstopmode",
+                        "-output-directory",
+                        str(tmp_path),
+                        str(tex_file),
+                    ],
+                    check=True,
+                    capture_output=True,
+                )
+
+                pdf_file = tmp_path / "anschreiben.pdf"
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(pdf_file, output_path)
+
+            except subprocess.CalledProcessError as e:
+                raise RuntimeError(f"LaTeX compilation failed: {e.stderr.decode()}") from e
