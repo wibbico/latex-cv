@@ -16,6 +16,7 @@ class ContactInfo(BaseModel):
     website: str | None = None
     linkedin: str | None = None
     github: str | None = None
+    picture_path: str | None = None
 
 
 class DateRange(BaseModel):

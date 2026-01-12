@@ -27,6 +27,7 @@ def load_cv_from_yaml(file_path: Path | str) -> CurriculumVitae:
 def load_cv_from_yaml_folder(
     folder_path: Path | str,
     config_folder: Path | str | None = None,
+    picture_path: str | None = None,
 ) -> CurriculumVitae:
     """Load CV from multiple YAML files in a folder.
 
@@ -69,6 +70,9 @@ def load_cv_from_yaml_folder(
             "adresse": profile.get("location", {}).get("de", ""),
         }
 
+    # Use provided picture_path or load from cv_config
+    picture = picture_path or cv_config.get("picture_path")
+
     contact = ContactInfo(
         name=persoenliche_daten.get("name", ""),
         email=persoenliche_daten.get("email", ""),
@@ -80,6 +84,7 @@ def load_cv_from_yaml_folder(
         website=basedata.get("profile_data", {}).get("website", ""),
         linkedin=persoenliche_daten.get("linkedin", "") or basedata.get("profile_data", {}).get("linkedin", ""),
         github=persoenliche_daten.get("github", "") or basedata.get("profile_data", {}).get("github", ""),
+        picture_path=picture,
     )
 
     # Build professional profile - prefer short version from cv_config, fallback to mission statement

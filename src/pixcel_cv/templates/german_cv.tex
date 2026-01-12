@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{microtype}
 \usepackage{titlesec}
+\usepackage{graphicx}
 
 % Define professional colors
 \definecolor{primary}{HTML}{2E4053}   % Dark Slate Blue
@@ -45,11 +46,11 @@
 \begin{document}
 
 % Modern Header
-\begin{minipage}[t]{0.6\textwidth}
+\begin{minipage}[t]{0.55\textwidth}
     {\Huge\bfseries\color{primary} <VAR>cv.contact.name</VAR>} \\
     {\large\color{secondary} <VAR>cv.contact.title</VAR>}
 \end{minipage}
-\begin{minipage}[t]{0.4\textwidth}
+\begin{minipage}[t]{0.45\textwidth}
     \raggedleft\small\color{secondary}
     <VAR>cv.contact.location</VAR> \\
     <VAR>cv.contact.phone</VAR> \\
@@ -57,6 +58,14 @@
     \href{https://linkedin.com/in/<VAR>cv.contact.linkedin</VAR>}{linkedin.com/in/<VAR>cv.contact.linkedin</VAR>} \\
     \href{https://github.com/<VAR>cv.contact.github</VAR>}{github.com/<VAR>cv.contact.github</VAR>}
 \end{minipage}
+
+<BLOCK>if cv.contact.picture_path</BLOCK>
+\vspace{0.2cm}
+\noindent\begin{minipage}[t]{1\textwidth}
+    \raggedleft
+    \includegraphics[width=3cm,height=4cm,keepaspectratio]{<VAR>cv.contact.picture_path</VAR>}
+\end{minipage}
+<BLOCK>endif</BLOCK>
 
 \vspace{0.4cm}
 
