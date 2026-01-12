@@ -14,7 +14,7 @@ def main(
     output_pdf: str | None = None,
     output_latex: str | None = None,
     engine: str = "pdflatex",
-    picture: str | None = None,
+    portrait: str | None = None,
 ) -> int:
     """Generate CV from YAML file or folder.
 
@@ -25,7 +25,7 @@ def main(
         output_pdf: Path for output PDF (optional).
         output_latex: Path for output LaTeX (optional).
         engine: LaTeX engine to use.
-        picture: Path to portrait picture file (optional).
+        portrait: Path to portrait picture file (optional).
 
     Returns:
         Exit code (0 for success, 1 for error).
@@ -51,9 +51,9 @@ def main(
                     print(f"Error: Config folder not found: {config_folder}", file=sys.stderr)
                     return 1
                 print(f"Loading config from {config_folder}...")
-                cv = load_cv_from_yaml_folder(folder_path, config_folder=config_path, picture_path=picture)
+                cv = load_cv_from_yaml_folder(folder_path, config_folder=config_path, portrait_path=portrait)
             else:
-                cv = load_cv_from_yaml_folder(folder_path, picture_path=picture)
+                cv = load_cv_from_yaml_folder(folder_path, portrait_path=portrait)
         else:
             input_path = Path(input_yaml)
             if not input_path.exists():
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         default="pdflatex",
         help="LaTeX engine to use",
     )
-    parser.add_argument("--picture", help="Path to portrait picture file")
+    parser.add_argument("--portrait", help="Path to portrait picture file")
 
     args = parser.parse_args()
     sys.exit(
@@ -116,6 +116,6 @@ if __name__ == "__main__":
             output_pdf=args.pdf,
             output_latex=args.latex,
             engine=args.engine,
-            picture=args.picture,
+            portrait=args.portrait,
         )
     )

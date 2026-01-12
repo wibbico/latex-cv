@@ -27,12 +27,13 @@ def load_cv_from_yaml(file_path: Path | str) -> CurriculumVitae:
 def load_cv_from_yaml_folder(
     folder_path: Path | str,
     config_folder: Path | str | None = None,
-    picture_path: str | None = None,
+    portrait_path: str | None = None,
 ) -> CurriculumVitae:
     """Load CV from multiple YAML files in a folder.
 
     Args:
         folder_path: Path to folder containing YAML files (data files).
+        portrait_path: Optional path to portrait picture file.
         config_folder: Optional path to folder containing cv_config.yaml (defaults to folder_path).
 
     Returns:
@@ -54,9 +55,6 @@ def load_cv_from_yaml_folder(
     projects = _load_yaml_file(folder_path / "projekt_historie.yaml") or {"projects": []}
     certifications_data = _load_yaml_file(folder_path / "certifications.yaml") or {"certifications": []}
 
-    # Config file from config folder (typically local ./yaml)
-    cv_config = _load_yaml_file(config_folder / "cv_config.yaml") or {}
-
     # Build contact info from cv_basis.yaml (NEW STRUCTURE)
     persoenliche_daten = cv_basis.get("persoenliche_daten", {})
 
@@ -70,8 +68,8 @@ def load_cv_from_yaml_folder(
             "adresse": profile.get("location", {}).get("de", ""),
         }
 
-    # Use provided picture_path or load from cv_config
-    picture = picture_path or cv_config.get("picture_path")
+    # Use provided portrait_path or load from cv_config
+    portrait = portrait_path or cv_config.get("portrait_path")
 
     contact = ContactInfo(
         name=persoenliche_daten.get("name", ""),
@@ -84,28 +82,15 @@ def load_cv_from_yaml_folder(
         website=basedata.get("profile_data", {}).get("website", ""),
         linkedin=persoenliche_daten.get("linkedin", "") or basedata.get("profile_data", {}).get("linkedin", ""),
         github=persoenliche_daten.get("github", "") or basedata.get("profile_data", {}).get("github", ""),
-        picture_path=picture,
+        portrait_path=portrait,
     )
 
-    # Build professional profile - prefer short version from cv_config, fallback to mission statement
+    # Build professional profile - prefer short version from cv_basis
     berufliches_profil = ""
     
-    # First try cv_config.yaml (short version)
-    cv_sections = cv_config.get("sections", {})
+    cv_sections = cv_basis.get("sections", {})
     berufliches_profil = cv_sections.get("berufliches_profil", {}).get("de", "")
     
-    # Only use missionstatement if cv_config is empty
-    if not berufliches_profil and missionstatement and isinstance(missionstatement, list):
-        descriptions = []
-        for item in missionstatement:
-            if isinstance(item, dict) and "description_de" in item:
-                desc = item.get("description_de", "")
-                # Escape with linebreak preservation for professional profiles
-                desc_escaped = _escape_latex(desc, preserve_linebreaks=True)
-                descriptions.append(desc_escaped)
-        if descriptions:
-            berufliches_profil = "\n\n".join(descriptions)
-
     # Build skills from skills.yaml - group by category
     skills_by_category: dict[str, list[str]] = {}
     if skills_data.get("skills"):
